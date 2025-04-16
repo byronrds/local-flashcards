@@ -26,14 +26,13 @@ require("header.php");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">  
     <title>Signup</title>       
 </head>
 <body>
     <div class="container">
         <h1>Sign Up</h1>
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"> 
-            user_id: <input type="text" name="user_id" class="form-control" autofocus required /> <br/>
+            username: <input type="text" name="user_id" class="form-control" autofocus required /> <br/>
             Password: <input type="password" name="password" class="form-control" required /> <br/>
             Confirm Password: <input type="password" name="confirmPassword" class="form-control" required /> <br/>
             <input type="submit" value="Sign Up" class="btn btn-light" />   

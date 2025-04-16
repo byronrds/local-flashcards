@@ -1,5 +1,5 @@
 <?php
-require("connect_db.php"); // Ensure the database connection is included
+require("connect_db.php");
 
 function createUser($user_id, $hashedPassword) {
     global $db;
@@ -41,7 +41,7 @@ function getUserByUserId($user_id) {
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
 
-        return $user ?: null; // If no user found, return null
+        return $user ?: null; 
     } catch (PDOException $e) {
         echo "<p>Error fetching user: " . $e->getMessage() . "</p>";
         return null;
