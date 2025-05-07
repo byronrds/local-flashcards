@@ -1,24 +1,24 @@
 <?php
-require("connect_db.php");
-require("user_db.php");
+    require "connect_db.php";
+    require "user_db.php";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!empty($_POST['user_id']) && !empty($_POST['password']) && !empty($_POST['confirmPassword'])) {
-        if ($_POST['password'] == $_POST['confirmPassword']) {
-            $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            if (createUser($_POST['user_id'], $hashedPassword)) {
-                header("Location: login.php");
-                exit();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (! empty($_POST['user_id']) && ! empty($_POST['password']) && ! empty($_POST['confirmPassword'])) {
+            if ($_POST['password'] == $_POST['confirmPassword']) {
+                $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                if (createUser($_POST['user_id'], $hashedPassword)) {
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    echo "<h2>User ID already exists. Please choose a different one.</h2>";
+                }
             } else {
-                echo "<h2>User ID already exists. Please choose a different one.</h2>";
+                echo "<h2>Passwords do not match</h2>";
             }
-        } else {
-            echo "<h2>Passwords do not match</h2>";
         }
     }
-}
 
-require("header.php");
+    require "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -26,17 +26,23 @@ require("header.php");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Signup</title>       
+    <title>Signup</title>
+    <link rel="stylesheet" href="./output.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Sign Up</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"> 
-            username: <input type="text" name="user_id" class="form-control" autofocus required /> <br/>
-            Password: <input type="password" name="password" class="form-control" required /> <br/>
-            Confirm Password: <input type="password" name="confirmPassword" class="form-control" required /> <br/>
-            <input type="submit" value="Sign Up" class="btn btn-light" />   
+    <div class='flex items-center justify-center min-h-screen'>
+        <div class='border border-indigo-600 p-4 rounded-lg'>
+        <p class='text-md text-blue-500 text-center mb-4'>Sign Up</p>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+            <p>Username:</p>
+            <input type="text" name="user_id" class="border border-indigo-600 rounded-lg" autofocus required /> <br/>
+            <p>Password:</p>
+            <input type="password" name="password" class="border border-indigo-600 rounded-lg" required /> <br/>
+            <p>Confirm Password:</p>
+            <input type="password" name="confirmPassword" class="border border-indigo-600 rounded-lg" required /> <br/>
+            <button type="submit">Submit</button>
         </form>
+</div>
     </div>
 </body>
 </html>
