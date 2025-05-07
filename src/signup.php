@@ -18,7 +18,6 @@
         }
     }
 
-    require "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -29,21 +28,28 @@
     <title>Signup</title>
     <link rel="stylesheet" href="./output.css">
 </head>
-<body>
-    <div class='flex items-center justify-center min-h-screen'>
-        <div class='border border-indigo-600 p-4 rounded-lg'>
-        <p class='text-md text-blue-500 text-center mb-4'>Sign Up</p>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-            <p>Username:</p>
-            <input type="text" name="user_id" class="border border-indigo-600 rounded-lg" autofocus required /> <br/>
-            <p>Password:</p>
-            <input type="password" name="password" class="border border-indigo-600 rounded-lg" required /> <br/>
-            <p>Confirm Password:</p>
-            <input type="password" name="confirmPassword" class="border border-indigo-600 rounded-lg" required /> <br/>
-            <button type="submit">Submit</button>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="p-6 rounded-lg shadow-xl w-96">
+        <h1 class="text-xl font-semibold text-center text-gray-700">Sign Up</h1>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="mt-4">
+            <div class="mb-3">
+                <label class="block text-gray-600 font-medium">Username</label>
+                <input type="text" name="user_id" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required />
+            </div>
+            <div class="mb-3">
+                <label class="block text-gray-600 font-medium">Password</label>
+                <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required />
+            </div>
+            <div class="mb-3">
+                <label class="block text-gray-600 font-medium">Confirm Password</label>
+                <input type="password" name="confirmPassword" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required />
+            </div>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Submit
+            </button>
         </form>
-</div>
     </div>
 </body>
+
 </html>
 

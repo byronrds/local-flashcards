@@ -36,7 +36,7 @@
 </head>
 
 <body class="flex items-center justify-center min-h-screen">
-    <div class="p-6 rounded-lg shadow-lg w-96">
+    <div class="p-6 rounded-lg shadow-xl w-96">
         <h1 class="text-xl font-semibold text-center text-gray-700">Login</h1>
         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="mt-4">
             <div class="mb-3">
