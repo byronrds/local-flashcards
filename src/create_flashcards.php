@@ -14,7 +14,7 @@
     
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="mt-4">
       <table id="item-table" class="border-collapse border border-gray-400 w-full">
-        <thead>
+    <thead>
           <tr>
             <th class="border border-gray-300">Term</th>
             <th class="border border-gray-300">Definition</th>
@@ -43,18 +43,27 @@
   </div>
 
   <script>
+    function removeRow(button) {
+  button.closest('tr').remove();
+}
+
+
     function addRow() {
       const tableBody = document.getElementById('table-body');
       const row = document.createElement('tr');
 
       row.innerHTML = `
-        <td class="border border-gray-300">
-          <input type="text" name="term[]" class="w-full p-2 border border-gray-300" required />
-        </td>
-        <td class="border border-gray-300">
-          <input type="text" name="definition[]" class="w-full p-2 border border-gray-300" required />
-        </td>
-      `;
+  <td class="border border-gray-300">
+    <input type="text" name="term[]" class="w-full p-2 border border-gray-300" required />
+  </td>
+  <td class="border border-gray-300">
+    <input type="text" name="definition[]" class="w-full p-2 border border-gray-300" required />
+  </td>
+  <td class="border border-gray-300 text-center">
+    <button type="button" class="text-red-500 font-semibold" onclick="removeRow(this)">✖</button>
+  </td>
+`;
+
 
       tableBody.appendChild(row);
     }
