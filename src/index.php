@@ -13,6 +13,7 @@ $user_id = $_SESSION['user_id'];
 $user = getUserByUserId($user_id);
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +28,9 @@ $user = getUserByUserId($user_id);
 
     <div class="p-6">
         <p class="text-md">Hey <?php echo htmlspecialchars($user['user_id']); ?>. Let's study!</p>
+        <p>Test</p>
 
-        <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Create Flashcard Set</button>
+        <button onClick="window.location='create_flashcards.php';" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Create Flashcard Set</button>
         
     </div>
 </body>

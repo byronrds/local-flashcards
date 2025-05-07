@@ -1,30 +1,30 @@
-<?php 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require("connect_db.php");
-require("user_db.php"); 
+<?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    require "connect_db.php";
+    require "user_db.php";
 
-session_start();
+    session_start();
 ?>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!empty($_POST['user_id']) && !empty($_POST['password'])) {
-        $user = getUserByUserId($_POST['user_id']);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (! empty($_POST['user_id']) && ! empty($_POST['password'])) {
+            $user = getUserByUserId($_POST['user_id']);
 
-        if (!$user) {
-            echo "<h2>User not found in database</h2>";
-        } else {
-            if (password_verify($_POST['password'], $user['password'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                header("Location: index.php");
-                exit();  
+            if (! $user) {
+                echo "<h2>User not found in database</h2>";
             } else {
-                echo "<h2>Incorrect password</h2>";
+                if (password_verify($_POST['password'], $user['password'])) {
+                    $_SESSION['user_id'] = $user['user_id'];
+                    header("Location: index.php");
+                    exit();
+                } else {
+                    echo "<h2>Incorrect password</h2>";
+                }
             }
         }
     }
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./output.css">
-    <title>Login</title>       
+    <title>Login</title>
 </head>
 
 <body class="flex items-center justify-center min-h-screen">
