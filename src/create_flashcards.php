@@ -3,6 +3,7 @@ require_once "connect_db.php";
 
 $success = false;
 $error = '';
+$set_name = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empty($_POST['term']) && !empty($_POST['definition'])) {
     $set_name_raw = trim($_POST['set_name']);
@@ -29,16 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
                     $insert->execute([trim($terms[$i]), trim($defs[$i])]);
                 }
             }
-            // Redirect to avoid duplicate insert on refresh
-            header("Location: create_flashcards.php?success=1");
+            // Redirect to view the set after creation
+            header("Location: flashcard_list.php?set=" . urlencode($table) . "&created=1");
             exit();
         } catch (PDOException $e) {
             $error = 'Error: ' . htmlspecialchars($e->getMessage());
         }
     }
-}
-if (isset($_GET['success'])) {
-    $success = true;
 }
 ?>
 <!DOCTYPE html>
@@ -68,9 +66,7 @@ if (isset($_GET['success'])) {
     <a href="index.php" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#f1f5f9;color:#1e293b;box-shadow:none;">← Back to Home</a>
     <div class="title">Create a New Flashcard Set</div>
     <div class="subtitle">Name your set and add as many cards as you like.</div>
-    <?php if ($success): ?>
-      <div class="success">Flashcard set created successfully!</div>
-    <?php elseif ($error): ?>
+    <?php if ($error): ?>
       <div class="error"><?= $error ?></div>
     <?php endif; ?>
     <form action="" method="post" class="mt-4">
