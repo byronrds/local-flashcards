@@ -29,11 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
                     $insert->execute([trim($terms[$i]), trim($defs[$i])]);
                 }
             }
-            $success = true;
+            // Redirect to avoid duplicate insert on refresh
+            header("Location: create_flashcards.php?success=1");
+            exit();
         } catch (PDOException $e) {
             $error = 'Error: ' . htmlspecialchars($e->getMessage());
         }
     }
+}
+if (isset($_GET['success'])) {
+    $success = true;
 }
 ?>
 <!DOCTYPE html>
