@@ -76,12 +76,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="setup-container">
     <h2>Local Flashcards Setup</h2>
+    <p>Congratulations! You've successfully installed XAMPP and started all the necessary servers. Now, we need to set up the MySQL database for the application. While you could do this manually by visiting <a href="http://localhost/phpmyadmin/" target="_blank">localhost/phpmyadmin</a>, we've made it simple for you to do it here.</p>
     <?php if ($success): ?>
         <div class="success">Setup complete! <a href="index.php">Go to app</a></div>
     <?php else: ?>
         <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
         <form method="post">
-            <label>MySQL Host:<br><input type="text" name="db_host" value="localhost" required></label><br>
+            <label>MySQL Host:<br><input type="text" name="db_host" value="localhost" required placeholder="e.g., 127.0.0.1 or localhost"></label><br>
             <label>MySQL Username:<br><input type="text" name="db_user" required></label><br>
             <label>MySQL Password:<br><input type="password" name="db_pass"></label><br>
             <label>Database Name:<br><input type="text" name="db_name" value="local_flashcards" required></label><br>
