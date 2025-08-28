@@ -11,6 +11,19 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 $user = getUserByUserId($user_id);
+
+// Fetch all flashcard sets (tables starting with set_)
+$sets = [];
+try {
+    $stmt = $db->query("SHOW TABLES");
+    while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+        if (strpos($row[0], 'set_') === 0) {
+            $sets[] = $row[0];
+        }
+    }
+} catch (Exception $e) {
+    // ignore for now
+}
 ?>
 
 <!DOCTYPE html>
@@ -69,9 +82,34 @@ $user = getUserByUserId($user_id);
             color: #0ea5e9;
             font-size: 1.5rem;
         }
+        .sets-list {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+        }
+        .set-card {
+            background: #f1f5f9;
+            border-radius: 0.7rem;
+            box-shadow: 0 2px 8px #6366f133;
+            padding: 1.2rem 1.5rem;
+            min-width: 180px;
+            text-align: center;
+            font-weight: 600;
+            color: #334155;
+            text-decoration: none;
+            transition: box-shadow 0.2s, background 0.2s;
+            border: 1px solid #e0e7ef;
+        }
+        .set-card:hover {
+            background: #e0e7ff;
+            box-shadow: 0 4px 16px #6366f133;
+        }
         @media (max-width: 600px) {
             .card { padding: 1.2rem 0.5rem; }
             .welcome { font-size: 1.3rem; }
+            .sets-list { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -99,6 +137,18 @@ $user = getUserByUserId($user_id);
                 <span>Track your progress and focus on what matters most.</span>
             </div>
         </div>
+
+        <?php if (!empty($sets)): ?>
+        <div class="sets-list">
+            <?php foreach ($sets as $set): ?>
+                <a class="set-card" href="flashcard_list.php?set=<?= urlencode($set) ?>">
+                    <?= htmlspecialchars(str_replace('set_', '', $set)) ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="sets-list" style="color:#64748b;">No flashcard sets yet. Create your first one!</div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

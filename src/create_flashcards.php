@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
 </head>
 <body class="hero-bg min-h-screen">
   <div class="card">
+    <a href="index.php" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#f1f5f9;color:#1e293b;box-shadow:none;">← Back to Home</a>
     <div class="title">Create a New Flashcard Set</div>
     <div class="subtitle">Name your set and add as many cards as you like.</div>
     <?php if ($success): ?>
