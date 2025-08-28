@@ -39,7 +39,8 @@ if ($set) {
 <body class="hero-bg min-h-screen">
     <div class="container">
         <a href="index.php" class="back-btn">← Back to Home</a>
-        <div class="set-title">Viewing Set: <span style="color:#6366f1;"><?= htmlspecialchars(str_replace('set_', '', $set)) ?></span></div>
+        <a href="edit_flashcards.php?set=<?= urlencode($set) ?>" class="btn" style="float:right;background:#6366f1;color:#fff;">Edit Set</a>
+        <div class="set-title">Viewing Set: <span style="color:#6366f1;\"><?= htmlspecialchars(str_replace('set_', '', $set)) ?></span></div>
         <?php if ($error): ?>
             <div class="error"><?= $error ?></div>
         <?php elseif (empty($terms)): ?>
