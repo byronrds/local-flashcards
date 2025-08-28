@@ -18,9 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!is_array($config) || empty($config['host']) || empty($config['user']) || empty($config['name'])) {
             $error = "Configuration file found but looks invalid. Please ensure it returns an array with 'host','user','pass','name'.";
         } else {
-            // All good — redirect to app
-            header('Location: index.php');
-            exit();
+            // Try to connect and create the 'user' table if it doesn't exist
+            try {
+                $dsn = "mysql:host={$config['host']};dbname={$config['name']};charset=utf8mb4";
+                $pdo = new PDO($dsn, $config['user'], $config['pass'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                $pdo->exec("CREATE TABLE IF NOT EXISTS user (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id VARCHAR(255) NOT NULL UNIQUE,
+                    password VARCHAR(255) NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+                // All good — redirect to app
+                header('Location: index.php');
+                exit();
+            } catch (PDOException $e) {
+                $error = 'Database error: ' . htmlspecialchars($e->getMessage());
+            }
         }
     }
 }
