@@ -1,94 +1,61 @@
 <?php
-// setup.php: Initial database setup for Local Flashcards
-// Prompts for DB credentials, creates DB/tables, and saves config
+// Minimal setup helper: show manual config and allow user to verify once they've created src/db_config.php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+define('DB_CONFIG_FILE', __DIR__ . '/db_config.php');
 
 session_start();
 
-// Path to config file
-define('DB_CONFIG_FILE', __DIR__ . '/db_config.php');
-
-// If config already exists and is filled, redirect to index
-if (file_exists(DB_CONFIG_FILE)) {
-    $config = require DB_CONFIG_FILE;
-    if (!empty($config['host']) && !empty($config['user']) && !empty($config['name'])) {
-        header('Location: index.php');
-        exit();
-    }
-}
-
 $error = '';
-$success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $host = $_POST['db_host'] ?? '';
-    $user = $_POST['db_user'] ?? '';
-    $pass = $_POST['db_pass'] ?? '';
-    $dbname = $_POST['db_name'] ?? '';
-
-    try {
-        // Connect to MySQL server (no DB yet)
-        $pdo = new PDO("mysql:host=$host", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        // Create DB if not exists
-        $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        // Connect to the new DB
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-
-        // Create tables if not exist
-        $pdo->exec("CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(255) NOT NULL UNIQUE,
-            password VARCHAR(255) NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-
-        $pdo->exec("CREATE TABLE IF NOT EXISTS flashcards (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,
-            question TEXT NOT NULL,
-            answer TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-
-        // Save config
-        $config = "<?php\nreturn [\n    'host' => '" . addslashes($host) . "',\n    'user' => '" . addslashes($user) . "',\n    'pass' => '" . addslashes($pass) . "',\n    'name' => '" . addslashes($dbname) . "'\n];\n";
-        file_put_contents(DB_CONFIG_FILE, $config);
-        $success = true;
-    } catch (PDOException $e) {
-        $error = 'Setup failed: ' . htmlspecialchars($e->getMessage());
+    // User clicked "I've created the file" — verify it exists and contains required values
+    if (!file_exists(DB_CONFIG_FILE)) {
+        $error = "Configuration file not found. Please create <code>src/db_config.php</code> first.";
+    } else {
+        $config = @include DB_CONFIG_FILE;
+        if (!is_array($config) || empty($config['host']) || empty($config['user']) || empty($config['name'])) {
+            $error = "Configuration file found but looks invalid. Please ensure it returns an array with 'host','user','pass','name'.";
+        } else {
+            // All good — redirect to app
+            header('Location: index.php');
+            exit();
+        }
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Local Flashcards Setup</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Local Flashcards — Manual DB Config</title>
     <style>
-        body { font-family: sans-serif; background: #f8f8f8; }
-        .setup-container { max-width: 400px; margin: 40px auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px #0001; }
-        input[type=text], input[type=password] { width: 100%; padding: 0.5em; margin-bottom: 1em; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 0.7em 2em; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-        .error { color: #b00; margin-bottom: 1em; }
-        .success { color: #080; margin-bottom: 1em; }
+        body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f7fafc; }
+        .card { max-width:720px; margin:48px auto; background:#fff; padding:24px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+        pre { background:#f4f4f4; padding:16px; border-radius:6px; overflow:auto; }
+        .error { color:#b00; margin:12px 0; }
+        .btn { display:inline-block; padding:10px 16px; background:#0366d6; color:#fff; border-radius:6px; text-decoration:none; border:none; cursor:pointer; }
+        .note { color:#555; font-size:0.95rem; }
     </style>
 </head>
 <body>
-<div class="setup-container">
-    <h2>Local Flashcards Setup</h2>
-    <p>Congratulations! You've successfully installed XAMPP and started all the necessary servers. Now, we need to set up the MySQL database for the application. While you could do this manually by visiting <a href="http://localhost/phpmyadmin/" target="_blank">localhost/phpmyadmin</a>, we've made it simple for you to do it here.</p>
-    <?php if ($success): ?>
-        <div class="success">Setup complete! <a href="index.php">Go to app</a></div>
-    <?php else: ?>
-        <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
-        <form method="post">
-            <label>MySQL Host:<br><input type="text" name="db_host" value="localhost" required placeholder="e.g., 127.0.0.1 or localhost"></label><br>
-            <label>MySQL Username:<br><input type="text" name="db_user" required></label><br>
-            <label>MySQL Password:<br><input type="password" name="db_pass"></label><br>
-            <label>Database Name:<br><input type="text" name="db_name" value="local_flashcards" required></label><br>
-            <button type="submit">Set Up</button>
-        </form>
-    <?php endif; ?>
+<div class="card">
+    <h1>Manual DB config</h1>
+    <p class="note">PHP couldn't write the config file automatically, or you prefer to create it manually. Create <code>src/db_config.php</code> with the contents below and then click <strong>I've created the file</strong>.</p>
+
+    <pre><?php echo htmlspecialchars("<?php\nreturn [\n    'host' => 'localhost',\n    'user' => 'root',\n    'pass' => '',\n    'name' => 'local_flashcards',\n];\n"); ?></pre>
+
+    <p class="note">After creating the file, set secure permissions if necessary (example: <code>chmod 644 src/db_config.php</code>).</p>
+
+    <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
+
+    <form method="post">
+        <button type="submit" class="btn">I've created the file — verify and continue</button>
+    </form>
+
+    <p style="margin-top:18px" class="note">If verification fails, double-check the file path and that it returns an array like the example above. Don't refresh this page while copying: click the button only once after creating the file.</p>
 </div>
 </body>
 </html>

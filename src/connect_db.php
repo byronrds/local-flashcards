@@ -8,17 +8,21 @@ if (!file_exists($config_file)) {
       exit();
    }
 }
+
 $config = require $config_file;
+
+// Validate the config file contents
+if (empty($config['host']) || empty($config['name']) || empty($config['user'])) {
+   if ($current_script !== 'setup.php') {
+      header('Location: setup.php');
+      exit();
+   }
+}
 
 $host = $config['host'] ?? '';
 $dbname = $config['name'] ?? '';
 $username = $config['user'] ?? '';
 $password = $config['pass'] ?? '';
-
-if ((!$host || !$dbname || !$username) && $current_script !== 'setup.php') {
-   header('Location: setup.php');
-   exit();
-}
 
 $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
