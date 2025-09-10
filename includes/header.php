@@ -4,15 +4,15 @@
 </head>
 
 <header>
-  <nav class="flex justify-between items-center bg-white border-b border-gray-200 px-6 py-4">
-    <a href="index.php" class="text-xl font-semibold text-black">Flashcards</a>
+  <nav class="flex justify-between items-center bg-gray-900 border-b border-yellow-400 px-6 py-4" style="background-color: #323437; border-bottom: 1px solid #FFD700;">
+    <a href="index.php" class="text-xl font-semibold" style="color: #FFD700;">FlashMaster</a>
     <div class="flex space-x-6">
       <?php if (!isset($_SESSION['user_id'])) { ?>
-        <a href="login.php" class="hover:underline text-black">Sign in</a>
+        <a href="login.php" class="hover:underline" style="color: #e2e2e2;">Sign in</a>
       <?php } else { ?>
-        <a href="logout.php" class="hover:underline text-black">Log out</a>
+        <a href="logout.php" class="hover:underline" style="color: #e2e2e2;">Log out</a>
       <?php } ?>
-      <a href="profile.php" class="hover:underline text-black">Profile</a>
+      <a href="profile.php" class="hover:underline" style="color: #e2e2e2;">Profile</a>
     </div>
   </nav>
 </header>

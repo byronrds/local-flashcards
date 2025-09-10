@@ -47,38 +47,39 @@ usort($sets, function($a, $b) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile | Local Flashcards</title>
+    <title>Profile | FlashMaster</title>
     <link rel="stylesheet" href="../assets/css/output.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <style>
-        body { background: #ffffff; }
-        .container { width: 95%; max-width: 1200px; margin: 2.5rem auto; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 2.5rem; }
-        .title { font-size: 1.5rem; font-weight: 700; color: #000000; margin-bottom: 1.5rem; }
-        .section-title { font-size: 1.2rem; font-weight: 600; color: #000000; margin: 2rem 0 1rem 0; }
-        .profile-info { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem; }
+        body { background: #2c2e31; color: #e2e2e2; }
+        .container { width: 95%; max-width: 1200px; margin: 2.5rem auto; background: #323437; border: 1px solid #4a4d52; border-radius: 8px; padding: 2.5rem; }
+        .title { font-size: 1.5rem; font-weight: 700; color: #e2e2e2; margin-bottom: 1.5rem; }
+        .section-title { font-size: 1.2rem; font-weight: 600; color: #e2e2e2; margin: 2rem 0 1rem 0; }
+        .profile-info { background: #3a3d42; border: 1px solid #4a4d52; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 4px; padding: 1.5rem; text-align: center; }
-        .stat-number { font-size: 2rem; font-weight: 700; color: #000000; }
-        .stat-label { color: #666666; font-size: 0.9rem; }
+        .stat-card { background: #3a3d42; border: 1px solid #4a4d52; border-radius: 4px; padding: 1.5rem; text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #FFD700; }
+        .stat-label { color: #b5b5b5; font-size: 0.9rem; }
         .profile-item { margin-bottom: 1rem; }
-        .profile-label { font-weight: 600; color: #000000; }
-        .profile-value { color: #666666; }
+        .profile-label { font-weight: 600; color: #e2e2e2; }
+        .profile-value { color: #b5b5b5; }
         .sets-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
-        .set-card { background: #ffffff; border: 1px solid #d1d5db; border-radius: 4px; padding: 1.2rem; transition: border-color 0.2s; }
-        .set-card:hover { border-color: #9ca3af; }
-        .set-name { font-weight: 600; color: #000000; margin-bottom: 0.5rem; }
-        .set-info { color: #666666; font-size: 0.9rem; margin-bottom: 1rem; }
+        .set-card { background: #3a3d42; border: 1px solid #4a4d52; border-radius: 4px; padding: 1.2rem; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+        .set-card:hover { border-color: #FFD700; background: #424549; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); }
+        .set-name { font-weight: 600; color: #e2e2e2; margin-bottom: 0.5rem; }
+        .set-info { color: #b5b5b5; font-size: 0.9rem; margin-bottom: 1rem; }
         .set-actions { display: flex; gap: 0.5rem; }
-        .btn-small { background: #000000; color: #ffffff; border: none; border-radius: 4px; padding: 0.4rem 0.8rem; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
-        .btn-small:hover { background: #333333; }
-        .btn-outline { background: #ffffff; color: #000000; border: 1px solid #d1d5db; }
-        .btn-outline:hover { background: #f9f9f9; }
-        .back-btn { display: inline-block; margin-bottom: 1.5rem; background: #ffffff; color: #000000; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px 16px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
-        .back-btn:hover { background: #f9f9f9; }
-        .logout-btn { background: #000000; color: #ffffff; border: none; border-radius: 4px; padding: 10px 16px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; margin-right: 1rem; }
-        .logout-btn:hover { background: #333333; }
-        .create-btn { background: #ffffff; color: #000000; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px 16px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
-        .create-btn:hover { background: #f9f9f9; }
-        .empty-state { text-align: center; padding: 3rem 2rem; color: #666666; }
+        .btn-small { background: #FFD700; color: #000000; border: none; border-radius: 4px; padding: 0.4rem 0.8rem; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
+        .btn-small:hover { background: #FFC107; }
+        .btn-outline { background: #3a3d42; color: #e2e2e2; border: 1px solid #4a4d52; }
+        .btn-outline:hover { background: #424549; }
+        .back-btn { display: inline-block; margin-bottom: 1.5rem; background: #3a3d42; color: #e2e2e2; border: 1px solid #4a4d52; border-radius: 4px; padding: 10px 16px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+        .back-btn:hover { background: #424549; }
+        .logout-btn { background: #FFD700; color: #000000; border: none; border-radius: 4px; padding: 10px 16px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; margin-right: 1rem; }
+        .logout-btn:hover { background: #FFC107; }
+        .create-btn { background: #3a3d42; color: #e2e2e2; border: 1px solid #4a4d52; border-radius: 4px; padding: 10px 16px; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s; }
+        .create-btn:hover { background: #424549; }
+        .empty-state { text-align: center; padding: 3rem 2rem; color: #b5b5b5; }
     </style>
 </head>
 <body>

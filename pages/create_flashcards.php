@@ -46,24 +46,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create Flashcard Set</title>
   <link rel="stylesheet" href="../assets/css/output.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <style>
-    body { background: #ffffff; }
-    .card { width: 95%; max-width: 1200px; margin: 2.5rem auto; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 2.5rem 2rem; }
-    .title { font-size: 1.5rem; font-weight: 700; color: #000000; margin-bottom: 0.5rem; }
-    .subtitle { color: #666666; margin-bottom: 1.5rem; }
-    .input, .set-name { width: 100%; padding: 0.5em; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1em; }
+    body { background: #2c2e31; color: #e2e2e2; }
+    .card { width: 95%; max-width: 1200px; margin: 2.5rem auto; background: #323437; border: 1px solid #4a4d52; border-radius: 8px; padding: 2.5rem 2rem; }
+    .title { font-size: 1.5rem; font-weight: 700; color: #e2e2e2; margin-bottom: 0.5rem; }
+    .subtitle { color: #b5b5b5; margin-bottom: 1.5rem; }
+    .input, .set-name { width: 100%; padding: 0.5em; border: 1px solid #4a4d52; border-radius: 4px; margin-bottom: 1em; background: #3a3d42; color: #e2e2e2; }
     .input, .set-name, textarea { box-sizing: border-box; }
     .input, textarea { resize: vertical; min-height: 2.2em; max-height: 8em; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; }
-    .btn { background: #000000; color: #ffffff; font-weight: 600; padding: 0.7rem 2rem; border-radius: 4px; font-size: 1.1rem; border: none; cursor: pointer; transition: background 0.2s; }
-    .btn:hover { background: #333333; }
-    .remove-btn { color: #000000; font-size: 1.2rem; border: none; background: none; cursor: pointer; }
-    .success { color: #000000; margin-bottom: 1em; }
-    .error { color: #000000; margin-bottom: 1em; }
+    .input:focus, .set-name:focus, textarea:focus { outline: none; border-color: #FFD700; }
+    .btn { background: #FFD700; color: #000000; font-weight: 600; padding: 0.7rem 2rem; border-radius: 4px; font-size: 1.1rem; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #FFC107; }
+    .remove-btn { color: #FFD700; font-size: 1.2rem; border: none; background: none; cursor: pointer; transition: color 0.2s; }
+    .remove-btn:hover { color: #FFC107; }
+    .success { color: #e2e2e2; margin-bottom: 1em; }
+    .error { color: #e2e2e2; margin-bottom: 1em; }
   </style>
 </head>
 <body>
   <div class="card">
-    <a href="index.php" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#ffffff;color:#000000;border:1px solid #d1d5db;">← Back to Home</a>
+    <a href="index.php" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#3a3d42;color:#e2e2e2;border:1px solid #4a4d52;">← Back to Home</a>
     <div class="title">Create a New Flashcard Set</div>
     <div class="subtitle">Name your set and add as many cards as you like.</div>
     <?php if ($error): ?>
@@ -88,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
           </tr>
         </tbody>
       </table>
-      <button type="button" onclick="addRow()" class="btn mb-2" style="background:#ffffff;color:#000000;border:1px solid #d1d5db;">Add Row</button>
+      <button type="button" onclick="addRow()" class="btn mb-2" style="background:#3a3d42;color:#e2e2e2;border:1px solid #4a4d52;">Add Row</button>
       <button type="submit" class="btn">Create Set</button>
     </form>
   </div>
