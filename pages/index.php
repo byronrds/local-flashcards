@@ -34,40 +34,38 @@ try {
     <title>Welcome | Local Flashcards</title>
     <link rel="stylesheet" href="../assets/css/output.css">
     <style>
-        .hero-bg {
-            background: linear-gradient(120deg, #e0e7ff 0%, #f0fdfa 100%);
-        }
+        body { background: #ffffff; }
         .card {
             background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
             padding: 2.5rem 2rem;
             width: 95%;
             max-width: 1200px;
-            min-width: 320px;
             margin: 2rem auto;
         }
         .welcome {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: #000000;
         }
         .subtitle {
-            color: #475569;
+            color: #666666;
             margin-bottom: 1.5rem;
         }
         .cta-btn {
-            background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
-            color: #fff;
+            background: #000000;
+            color: #ffffff;
             font-weight: 600;
             padding: 0.9rem 2.2rem;
-            border-radius: 0.5rem;
+            border-radius: 4px;
             font-size: 1.1rem;
-            box-shadow: 0 2px 8px #6366f133;
+            border: none;
             transition: background 0.2s;
+            cursor: pointer;
         }
         .cta-btn:hover {
-            background: linear-gradient(90deg, #4f46e5 0%, #0284c7 100%);
+            background: #333333;
         }
         .features {
             margin-top: 2.5rem;
@@ -81,8 +79,8 @@ try {
             gap: 0.8rem;
         }
         .feature-icon {
-            color: #0ea5e9;
-            font-size: 1.5rem;
+            color: #000000;
+            font-size: 1.2rem;
         }
         .sets-list {
             margin-top: 2.5rem;
@@ -92,21 +90,20 @@ try {
             justify-content: center;
         }
         .set-card {
-            background: #f1f5f9;
-            border-radius: 0.7rem;
-            box-shadow: 0 2px 8px #6366f133;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
             padding: 1.2rem 1.5rem;
             min-width: 180px;
             text-align: center;
             font-weight: 600;
-            color: #334155;
+            color: #000000;
             text-decoration: none;
-            transition: box-shadow 0.2s, background 0.2s;
-            border: 1px solid #e0e7ef;
+            transition: border-color 0.2s, background 0.2s;
         }
         .set-card:hover {
-            background: #e0e7ff;
-            box-shadow: 0 4px 16px #6366f133;
+            background: #f9f9f9;
+            border-color: #9ca3af;
         }
         @media (max-width: 768px) {
             .card { 
@@ -127,26 +124,26 @@ try {
     </style>
 </head>
 
-<body class="hero-bg min-h-screen">
+<body>
     <?php require("../includes/header.php"); ?>
 
     <div class="card">
-        <div class="welcome mb-2">Welcome, <?php echo htmlspecialchars($user['user_id']); ?>! 👋</div>
+        <div class="welcome mb-2">Welcome, <?php echo htmlspecialchars($user['user_id']); ?></div>
         <div class="subtitle">Ready to boost your memory and master new topics? Let's get started with your flashcards journey!</div>
 
         <button onClick="window.location='create_flashcards.php';" class="cta-btn mt-4">Create Flashcard Set</button>
 
         <div class="features">
             <div class="feature">
-                <span class="feature-icon">📚</span>
+                <span class="feature-icon">•</span>
                 <span>Organize your knowledge with unlimited flashcard sets.</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">⚡</span>
+                <span class="feature-icon">•</span>
                 <span>Quickly review and test yourself anytime, anywhere.</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">🎯</span>
+                <span class="feature-icon">•</span>
                 <span>Track your progress and focus on what matters most.</span>
             </div>
         </div>
@@ -160,7 +157,7 @@ try {
             <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <div class="sets-list" style="color:#64748b;">No flashcard sets yet. Create your first one!</div>
+        <div class="sets-list" style="color:#666666;">No flashcard sets yet. Create your first one!</div>
         <?php endif; ?>
     </div>
 </body>
