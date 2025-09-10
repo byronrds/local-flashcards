@@ -12,8 +12,7 @@
       <?php } else { ?>
         <a href="logout.php" class="hover:underline text-black">Log out</a>
       <?php } ?>
-      <a href="flashcard_list.php" class="hover:underline text-black">Flashcard List</a>
-      <a href="create_flashcards.php" class="hover:underline text-black">Create Set</a>
+      <a href="profile.php" class="hover:underline text-black">Profile</a>
     </div>
   </nav>
 </header>
