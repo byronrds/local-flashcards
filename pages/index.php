@@ -42,7 +42,9 @@ try {
             border-radius: 1rem;
             box-shadow: 0 4px 24px rgba(0,0,0,0.07);
             padding: 2.5rem 2rem;
-            max-width: 480px;
+            width: 95%;
+            max-width: 1200px;
+            min-width: 320px;
             margin: 2rem auto;
         }
         .welcome {
@@ -106,10 +108,21 @@ try {
             background: #e0e7ff;
             box-shadow: 0 4px 16px #6366f133;
         }
-        @media (max-width: 600px) {
-            .card { padding: 1.2rem 0.5rem; }
-            .welcome { font-size: 1.3rem; }
+        @media (max-width: 768px) {
+            .card { 
+                width: 95%;
+                padding: 1.5rem 1rem; 
+                margin: 1rem auto;
+            }
+            .welcome { font-size: 1.5rem; }
             .sets-list { flex-direction: column; align-items: center; }
+        }
+        @media (max-width: 480px) {
+            .card { 
+                width: 98%;
+                padding: 1.2rem 0.8rem; 
+            }
+            .welcome { font-size: 1.3rem; }
         }
     </style>
 </head>
