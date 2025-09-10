@@ -13,7 +13,7 @@
         <a href="logout.php" class="hover:underline hover:text-red-500">Log out</a>
       <?php } ?>
       <a href="flashcard_list.php" class="hover:underline">Flashcard List</a>
-      <a href="profile.php" class="hover:underline">Profile</a>
+      <a href="create_flashcards.php" class="hover:underline">Create Set</a>
     </div>
   </nav>
 </header>

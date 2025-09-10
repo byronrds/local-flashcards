@@ -12,7 +12,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // User clicked "I've created the file" — verify it exists and contains required values
     if (!file_exists(DB_CONFIG_FILE)) {
-        $error = "Configuration file not found. Please create <code>src/db_config.php</code> first.";
+        $error = "Configuration file not found. Please create <code>config/db_config.php</code> first.";
     } else {
         $config = @include DB_CONFIG_FILE;
         if (!is_array($config) || empty($config['host']) || empty($config['user']) || empty($config['name'])) {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
                 // All good — redirect to app
-                header('Location: index.php');
+                header('Location: ../pages/index.php');
                 exit();
             } catch (PDOException $e) {
                 $error = 'Database error: ' . htmlspecialchars($e->getMessage());
@@ -56,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="card">
     <h1>Manual DB config</h1>
-    <p class="note">PHP couldn't write the config file automatically, or you prefer to create it manually. Create <code>src/db_config.php</code> with the contents below and then click <strong>I've created the file</strong>.</p>
+    <p class="note">PHP couldn't write the config file automatically, or you prefer to create it manually. Create <code>config/db_config.php</code> with the contents below and then click <strong>I've created the file</strong>.</p>
 
     <pre><?php echo htmlspecialchars("<?php\nreturn [\n    'host' => 'localhost',\n    'user' => 'root',\n    'pass' => '',\n    'name' => 'local_flashcards',\n];\n"); ?></pre>
 
-    <p class="note">After creating the file, set secure permissions if necessary (example: <code>chmod 644 src/db_config.php</code>).</p>
+    <p class="note">After creating the file, set secure permissions if necessary (example: <code>chmod 644 config/db_config.php</code>).</p>
 
     <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
 

@@ -1,6 +1,6 @@
 <?php 
-require("connect_db.php");
-require("user_db.php");
+require("../config/database_connection.php");
+require("../includes/user_functions.php");
 session_start();
 
 // redirect to login page if not logged in
@@ -32,7 +32,7 @@ try {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome | Local Flashcards</title>
-    <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="../assets/css/output.css">
     <style>
         .hero-bg {
             background: linear-gradient(120deg, #e0e7ff 0%, #f0fdfa 100%);
@@ -115,7 +115,7 @@ try {
 </head>
 
 <body class="hero-bg min-h-screen">
-    <?php require("header.php"); ?>
+    <?php require("../includes/header.php"); ?>
 
     <div class="card">
         <div class="welcome mb-2">Welcome, <?php echo htmlspecialchars($user['user_id']); ?>! 👋</div>

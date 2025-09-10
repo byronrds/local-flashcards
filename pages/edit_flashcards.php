@@ -1,42 +1,43 @@
 <?php
-require_once "connect_db.php";
+require_once "../config/database_connection.php";
 
-$success = false;
+$set = isset($_GET['set']) ? $_GET['set'] : '';
+$set = preg_replace('/[^a-zA-Z0-9_]/', '', $set); // sanitize
+
+$terms = [];
 $error = '';
-$set_name = '';
+$success = false;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empty($_POST['term']) && !empty($_POST['definition'])) {
-    $set_name_raw = trim($_POST['set_name']);
-    // Only allow alphanumeric and underscores for table names
-    $set_name = preg_replace('/[^a-zA-Z0-9_]/', '', $set_name_raw);
-    if ($set_name === '') {
-        $error = 'Invalid set name. Use only letters, numbers, and underscores.';
-    } else {
+if ($set) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['term']) && !empty($_POST['definition'])) {
         try {
-            $table = "set_" . $set_name;
-            $create = "CREATE TABLE IF NOT EXISTS `$table` (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                term TEXT NOT NULL,
-                definition TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
-            $db->exec($create);
-
-            $insert = $db->prepare("INSERT INTO `$table` (term, definition) VALUES (?, ?)");
-            $terms = $_POST['term'];
-            $defs = $_POST['definition'];
-            for ($i = 0; $i < count($terms); $i++) {
-                if (trim($terms[$i]) !== '' && trim($defs[$i]) !== '') {
-                    $insert->execute([trim($terms[$i]), trim($defs[$i])]);
+            // Remove all existing rows
+            $db->exec("DELETE FROM `$set`");
+            // Insert new rows
+            $insert = $db->prepare("INSERT INTO `$set` (term, definition) VALUES (?, ?)");
+            $terms_post = $_POST['term'];
+            $defs_post = $_POST['definition'];
+            for ($i = 0; $i < count($terms_post); $i++) {
+                if (trim($terms_post[$i]) !== '' && trim($defs_post[$i]) !== '') {
+                    $insert->execute([trim($terms_post[$i]), trim($defs_post[$i])]);
                 }
             }
-            // Redirect to view the set after creation
-            header("Location: flashcard_list.php?set=" . urlencode($table) . "&created=1");
+            // Redirect to avoid resubmission
+            header("Location: flashcard_list.php?set=" . urlencode($set) . "&updated=1");
             exit();
         } catch (PDOException $e) {
             $error = 'Error: ' . htmlspecialchars($e->getMessage());
         }
     }
+    // Fetch current terms
+    try {
+        $stmt = $db->query("SELECT term, definition FROM `$set`");
+        $terms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $error = 'Could not load set: ' . htmlspecialchars($e->getMessage());
+    }
+} else {
+    $error = 'No set specified.';
 }
 ?>
 <!DOCTYPE html>
@@ -44,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create Flashcard Set</title>
-  <link rel="stylesheet" href="./output.css">
+  <title>Edit Flashcard Set</title>
+  <link rel="stylesheet" href="../assets/css/output.css">
   <style>
     .card { width: 98vw; max-width: none; margin: 2.5rem auto; background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px #0001; padding: 2.5rem 2rem; }
     .title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem; }
@@ -63,15 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
 </head>
 <body class="hero-bg min-h-screen">
   <div class="card">
-    <a href="index.php" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#f1f5f9;color:#1e293b;box-shadow:none;">← Back to Home</a>
-    <div class="title">Create a New Flashcard Set</div>
-    <div class="subtitle">Name your set and add as many cards as you like.</div>
+    <a href="flashcard_list.php?set=<?= urlencode($set) ?>" class="btn" style="margin-bottom:1.2rem;display:inline-block;background:#f1f5f9;color:#1e293b;box-shadow:none;">← Back to Set</a>
+    <div class="title">Edit Flashcard Set: <span style="color:#6366f1;\"><?= htmlspecialchars(str_replace('set_', '', $set)) ?></span></div>
+    <div class="subtitle">Update your terms and definitions below. Remove rows you don't want, or add new ones.</div>
     <?php if ($error): ?>
       <div class="error"><?= $error ?></div>
     <?php endif; ?>
     <form action="" method="post" class="mt-4">
-      <label class="block mb-2 font-medium">Set Name</label>
-      <input type="text" name="set_name" class="set-name" required pattern="[a-zA-Z0-9_]+" title="Letters, numbers, and underscores only" placeholder="e.g. biology101" />
       <table id="item-table" class="border-collapse border border-gray-400 w-full mb-2">
         <thead>
           <tr>
@@ -81,15 +80,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
           </tr>
         </thead>
         <tbody id="table-body">
-          <tr>
-            <td class="border border-gray-300"><textarea name="term[]" class="input" required></textarea></td>
-            <td class="border border-gray-300"><textarea name="definition[]" class="input" required></textarea></td>
-            <td class="border border-gray-300 text-center"><button type="button" class="remove-btn" onclick="removeRow(this)">✖</button></td>
-          </tr>
+          <?php if (!empty($terms)): ?>
+            <?php foreach ($terms as $row): ?>
+              <tr>
+                <td class="border border-gray-300"><textarea name="term[]" class="input" required><?= htmlspecialchars($row['term']) ?></textarea></td>
+                <td class="border border-gray-300"><textarea name="definition[]" class="input" required><?= htmlspecialchars($row['definition']) ?></textarea></td>
+                <td class="border border-gray-300 text-center"><button type="button" class="remove-btn" onclick="removeRow(this)">✖</button></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <tr>
+              <td class="border border-gray-300"><textarea name="term[]" class="input" required></textarea></td>
+              <td class="border border-gray-300"><textarea name="definition[]" class="input" required></textarea></td>
+              <td class="border border-gray-300 text-center"><button type="button" class="remove-btn" onclick="removeRow(this)">✖</button></td>
+            </tr>
+          <?php endif; ?>
         </tbody>
       </table>
       <button type="button" onclick="addRow()" class="btn mb-2" style="background:#fbbf24;color:#1e293b;">Add Row</button>
-      <button type="submit" class="btn">Create Set</button>
+      <button type="submit" class="btn">Save Changes</button>
     </form>
   </div>
   <script>
@@ -109,5 +118,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['set_name']) && !empt
   </script>
 </body>
 </html>
-
-

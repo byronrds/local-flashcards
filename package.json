@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "build-css": "npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css",
+    "watch-css": "npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch",
+    "serve": "php -S localhost:8080 -t pages"
+  },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.4",
     "tailwindcss": "^4.1.4"

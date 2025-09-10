@@ -1,5 +1,5 @@
 <?php
-require("connect_db.php");
+require("../config/database_connection.php");
 
 function createUser($user_id, $hashedPassword) {
     global $db;

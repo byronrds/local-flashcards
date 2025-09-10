@@ -1,5 +1,5 @@
 <?php
-require_once "connect_db.php";
+require_once "../config/database_connection.php";
 
 $set = isset($_GET['set']) ? $_GET['set'] : '';
 $set = preg_replace('/[^a-zA-Z0-9_]/', '', $set); // sanitize
@@ -23,7 +23,7 @@ if ($set) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>View Flashcard Set</title>
-    <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="../assets/css/output.css">
     <style>
         .container { max-width: 900px; margin: 2.5rem auto; background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px #0001; padding: 2.5rem 2rem; }
         .set-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1.5rem; }

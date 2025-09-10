@@ -1,2 +1,5 @@
 node_modules
 .vscode/settings.json
+config/db_config.php
+*.log
+.DS_Store
