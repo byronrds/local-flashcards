@@ -84,7 +84,7 @@ if ($set) {
     /* Button Styles */
     .btn { background: #FFD700; color: #000000; font-weight: 600; padding: 0.7rem 2rem; border-radius: 6px; font-size: 1rem; border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
     .btn:hover { background: #FFC107; transform: translateY(-1px); }
-    .btn-secondary { background: #3a3d42; margin-bottom:2rem; color: #e2e2e2; border: 1px solid #4a4d52; }
+    .btn-secondary { background: #3a3d42; color: #e2e2e2; border: 1px solid #4a4d52; }
     .btn-secondary:hover { background: #424549; }
     .btn-danger { background: #dc2626; color: #ffffff; }
     .btn-danger:hover { background: #b91c1c; }
@@ -114,7 +114,7 @@ if ($set) {
 </head>
 <body>
   <div class="card">
-    <a href="flashcard_list.php?set=<?= urlencode($set) ?>" class="btn btn-secondary">← Back to Set</a>
+    <a href="flashcard_list.php?set=<?= urlencode($set) ?>" class="btn btn-secondary" style="margin-bottom: 2rem;">← Back to Set</a>
     <div class="title">Edit Flashcard Set: <span style="color:#FFD700;"><?= htmlspecialchars(str_replace('set_', '', $set)) ?></span></div>
     <div class="subtitle">Update your terms and definitions below. Remove rows you don't want, or add new ones.</div>
     
