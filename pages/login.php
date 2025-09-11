@@ -54,22 +54,28 @@
                 <p>Your personal study companion. All your flashcards stored securely on your own device using MySQL. No cloud dependencies, complete data ownership, and lightning-fast performance.</p>
             </div>
             
-            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && (!empty($_POST['user_id']) || !empty($_POST['password']))): ?>
-                <div class="error">
-                    <?php
-                    if (empty($_POST['user_id']) || empty($_POST['password'])) {
-                        echo "Please fill in all fields.";
-                    } else {
-                        $user = getUserByUserId($_POST['user_id']);
-                        if (!$user) {
-                            echo "User not found. Please check your username or create an account.";
-                        } else if (!password_verify($_POST['password'], $user['password'])) {
-                            echo "Incorrect password. Please try again.";
-                        }
-                    }
-                    ?>
-                </div>
-            <?php endif; ?>
+                    <?php if (isset($_GET['account_deleted'])): ?>
+                        <div style="background: #22c55e; border: 1px solid #16a34a; border-radius: 4px; padding: 1rem; margin-bottom: 1.5rem; color: #ffffff;">
+                            ✅ Your account has been successfully deleted. All your data has been permanently removed.
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && (!empty($_POST['user_id']) || !empty($_POST['password']))): ?>
+                        <div class="error">
+                            <?php
+                            if (empty($_POST['user_id']) || empty($_POST['password'])) {
+                                echo "Please fill in all fields.";
+                            } else {
+                                $user = getUserByUserId($_POST['user_id']);
+                                if (!$user) {
+                                    echo "User not found. Please check your username or create an account.";
+                                } else if (!password_verify($_POST['password'], $user['password'])) {
+                                    echo "Incorrect password. Please try again.";
+                                }
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
             
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                 <div class="form-group">
