@@ -49,6 +49,7 @@ try {
             font-size: 2rem;
             font-weight: 700;
             color: #e2e2e2;
+            margin-bottom: 1rem;
         }
         .subtitle {
             color: #b5b5b5;
@@ -132,72 +133,9 @@ try {
             border: 1px dashed #4a4d52;
             border-radius: 6px;
         }
+
+    
         
-        /* Robot Mascot Animation */
-        .robot-container {
-            position: relative;
-            height: 60px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-        .robot {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: #FFD700;
-            border: 2px solid #000000;
-            border-radius: 6px;
-            animation: robotRun 4s linear infinite;
-        }
-        .robot::before {
-            content: "⚡";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-        }
-        .robot::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 8px;
-            width: 6px;
-            height: 6px;
-            background: #FFD700;
-            border: 1px solid #000000;
-            border-radius: 50%;
-            animation: robotLegs 0.3s ease-in-out infinite alternate;
-        }
-        @keyframes robotRun {
-            0% { left: -50px; }
-            100% { left: calc(100% + 50px); }
-        }
-        @keyframes robotLegs {
-            0% { left: 8px; }
-            100% { left: 16px; }
-        }
-        @media (max-width: 768px) {
-            .card { 
-                width: 95%;
-                padding: 1.5rem 1rem; 
-                margin: 1rem auto;
-            }
-            .welcome { font-size: 1.5rem; }
-            .sets-list { 
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-        }
-        @media (max-width: 480px) {
-            .card { 
-                width: 98%;
-                padding: 1.2rem 0.8rem; 
-            }
-            .welcome { font-size: 1.3rem; }
-            .sets-list { 
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 
